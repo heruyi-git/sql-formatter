@@ -77,8 +77,21 @@ public interface Params {
   public static class IndexedParams implements Params {
     private final Queue<?> params;
 
-    IndexedParams(List<?> params) {
-      this.params = new ArrayDeque<>(params);
+   IndexedParams(List<?> params) {
+      List tempParam = new ArrayList<>(params.size());
+      for (Object param : params) {
+        if (param == null){
+          param = "null";
+        }else if (param instanceof Number){
+        }else if (param instanceof String){
+          param = "'"+param+"'";
+        }else if (param instanceof Date){
+          param = "'" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(param) + "'";
+        }else{
+        }
+        tempParam.add(param);
+      }
+      this.params = new ArrayDeque<>(tempParam);
     }
 
     public boolean isEmpty() {
